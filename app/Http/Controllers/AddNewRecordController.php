@@ -14,41 +14,40 @@ class AddNewRecordController extends Controller
 
     public function saveWithDb(Request $request)
     {
-        try {
-            DB::beginTransaction();
-            // Code start from here
-            $dummy = Dummy::create([
-                'firstname' => $request->input('username'),
-                'email' => $request->input('email'),
-            ]);
+        if (empty($request->input('username'))) {
+            return response()->json(['status' => 'fail', 'msg' => 'Please provide suffiecient data.', 'example' => '?&username=chetanpatel&email=chetan.patel@gmail.com']);
+        } else {
+            try {
+                DB::beginTransaction();
 
-            $newUser = User::create([
-                'name' => $request->input('username'),
-                'email' => $request->input('email'),
-                'password' => 'password',
-            ]);
+                $dummy = Dummy::create([
+                    'firstname' => $request->input('username'),
+                    'email' => $request->input('email'),
+                ]);
 
-            $newAcct = Accounts::create([
-                'user_id' => $newUser->id,
-                'account_name' => $request->input('username'),
-            ]);
-            
-            // Code end here
-            DB::commit();
-            // Response of API or return VIEW
+                $newUser = User::create([
+                    'name' => $request->input('username'),
+                    'email' => $request->input('email'),
+                    'password' => 'password',
+                ]);
 
-            return response()->json([
-				'status' => 'success',
-				'msg'    => 'Data added sucessfully.'
-			]);
+                $newAcct = Accounts::create([
+                    'user_id' => $newUser->id,
+                    'account_name' => $request->input('username'),
+                ]);
+                DB::commit();
 
-        } catch (\Exception $exe) {
-            DB::rollBack();
-            // Exceptional response
-            return response()->json([
-				'status' => 'Failed.',
-				'msg'    => $exe->getMessage()
-			]);
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'Data added sucessfully.',
+                ]);
+
+            } catch (\Exception $exe) {
+                DB::rollBack();
+                return response()->json(['status' => 'Failed.', 'msg' => $exe->getMessage(),
+                ]);
+            }
+
         }
 
     }

@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/add_records', [AddNewRecordController::class, 'saveWithDb']);
-Route::get("/home", function(){ return View("welcome");
+Route::get("/", function () {return View("welcome");
 });
