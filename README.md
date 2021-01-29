@@ -31,7 +31,7 @@ You will see the effect in dummies table
     -- http://127.0.0.1:8000/add_records?accountname=chetan&username=chetanpatel&email=chetan132.patel@gmail.com
     -- output : success
 
-for the output please find screenshot in folder  explanation (step_3.png)
+for the output please find screenshot in folder name as explanation (step_3.png)
   
    
 
